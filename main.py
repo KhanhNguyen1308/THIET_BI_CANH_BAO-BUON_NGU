@@ -5,10 +5,13 @@ import numpy as np
 import mediapipe as mp
 from threading import Thread
 from ham import play_sound, draw_point, ty_le_mat, khoang_cach, giao_diem, duong_tron
-from trang_thai_dau import trang_thai_dau, trang_thai_mat
+from trang_thai_dau import trang_thai_dau, trang_thai_mat, gat_dau
 
 dem = 0
 mode = 0
+prev_status = 0
+gat_num = 0
+dem_gat = 0
 ty_le_tb = 0
 ty_le_mat_trai = 0
 ty_le_mat_phai = 0
@@ -18,15 +21,15 @@ Tu_the = ''
 Tu_the_trc = ''
 
 canh_bao = False
-avg = open("Text/avg.txt", "+w")
-md = open("Text/mode.txt", "+w")
+# avg = open("Text/avg.txt", "+w")
+# md = open("Text/mode.txt", "+w")
 
 
 mpDraw = mp.solutions.drawing_utils
 mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
 drawSpec = mpDraw.DrawingSpec(thickness=1, circle_radius=2)
-cap = cv2.VideoCapture("Video/final_test.mp4")
+cap = cv2.VideoCapture("Video_test/final_test.mp4")
 canh_bao = False
 i = 0
 
@@ -71,12 +74,13 @@ while True:
             goc_nghieng = int(math.degrees(math.atan(m)))
             thuoc= duong_tron(mui_ten, gd, ban_kinh)
             Tu_the, mode, Tu_the_trc = trang_thai_dau(thuoc, mui_ten, gd, ban_kinh, goc_chinh, goc_nghieng)
-            
             tt_mat, tt_mat_trc, dem, canh_bao = trang_thai_mat(ty_le_tb, dem, mode, canh_bao, tt_mat_trc)
-            md.write(str(mode/10)+"\n")
-            avg.write(str(round(ty_le_tb,3))+"\n")
+            gat_num, dem_gat, prev_status, canh_bao = gat_dau(prev_status, mode, dem_gat, gat_num, tt_mat, canh_bao)
+            # md.write(str(mode/10)+"\n")
+            # avg.write(str(round(ty_le_tb,3))+"\n")
             if canh_bao:
-                print("True")
+                cv2.putText(img, "CANH BAO!!!", (int(iw/2)-200, int(ih/2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+
             cv2.circle(img, gd, 2, (255, 0, 0), -1)
             cv2.circle(img, phai, 2, (255, 255, 0), -1)
             cv2.circle(img, trai, 2, (255, 255, 0), -1)
@@ -105,6 +109,7 @@ while True:
     fps = int(1 / (cTime - pTime))
     cv2.putText(img, str(fps), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
     cv2.putText(img, "Trang thai mat:" + tt_mat, (10,40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+    cv2.putText(img, "Gat dau" + str(gat_num), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
     pTime = cTime
     cv2.imshow('results', img)
     if key == ord('q'):

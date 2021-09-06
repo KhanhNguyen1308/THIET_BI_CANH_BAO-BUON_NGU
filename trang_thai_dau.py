@@ -7,10 +7,10 @@ def trang_thai_dau(thuoc, mui_ten, gd, R, goc_chinh, goc_nghieng):
             trang_thai = 'Ngang'
             mode = 8
         else:
-            if -20 <= goc_nghieng <= 20:
+            if -15 <= goc_nghieng <= 15:
                 trang_thai = 'Thang' 
                 mode = 0
-            elif goc_nghieng < -20:
+            elif goc_nghieng < -15:
                 trang_thai = 'Nghieng phai'
                 mode = 2
             else:
@@ -54,7 +54,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.25:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -64,7 +64,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.3:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -74,7 +74,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.28:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                     larm = True
         else:
             trang_thai = 'Mo'
@@ -84,7 +84,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.28:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -94,7 +94,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.35:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -104,7 +104,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.3:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -114,7 +114,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.35:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                     canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -124,7 +124,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.33:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -134,7 +134,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
         if ty_le_mat <= 0.3:
             trang_thai = 'Nham'
             dem += 1
-            if dem >= 20:
+            if dem >= 15:
                 canh_bao = True
         else:
             trang_thai = 'Mo'
@@ -144,15 +144,18 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
     return trang_thai, trang_thai_trc, dem, canh_bao
 
 
-def gat_dau(prev_status, mode, dem, gat_num, trang_thai):
-    if prev_status == 0 and (mode == 0 or mode == 2 or mode == 3):
-        prev_status == mode
-    if mode == 1 or mode == 6 or mode == 7 and (prev_status == 0 or prev_status == 2 or prev_status == 3):
+def gat_dau(trang_thai_trc, mode, dem, gat_num, trang_thai, canh_bao):
+    if trang_thai_trc == 0 and (mode == 0 or mode == 2 or mode == 3) and trang_thai == "Mo":
+        trang_thai_trc == mode
+        gat_num = 0
+        canh_bao = False
+    if mode == 1 or mode == 6 or mode == 7 and (trang_thai_trc == 0 or trang_thai_trc == 2 or trang_thai_trc == 3):
         if trang_thai == "Nham":
             dem += 1
-            prev_status = mode
-    if (mode == 0 or mode == 2 or mode == 3) and (prev_status == 1 or prev_status == 6 or prev_status == 7):  
+            trang_thai_trc = mode
+    if (mode == 0 or mode == 2 or mode == 3) and (trang_thai_trc == 1 or trang_thai_trc == 6 or trang_thai_trc == 7):  
         if dem <= 10 and dem != 0:
             gat_num += 1
             dem = 0
-    return gat_num, dem, prev_status
+            canh_bao = True
+    return gat_num, dem, trang_thai_trc, canh_bao
