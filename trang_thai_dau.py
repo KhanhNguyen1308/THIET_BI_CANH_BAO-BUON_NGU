@@ -7,10 +7,10 @@ def trang_thai_dau(thuoc, mui_ten, gd, R, goc_chinh, goc_nghieng):
             trang_thai = 'Ngang'
             mode = 8
         else:
-            if -25 <= goc_nghieng <= 25:
+            if -20 <= goc_nghieng <= 20:
                 trang_thai = 'Thang' 
                 mode = 0
-            elif goc_nghieng < -25:
+            elif goc_nghieng < -20:
                 trang_thai = 'Nghieng phai'
                 mode = 2
             else:
@@ -32,20 +32,20 @@ def trang_thai_dau(thuoc, mui_ten, gd, R, goc_chinh, goc_nghieng):
                 trang_thai = 'Ngang'
                 mode = 8
         elif mui_ten[0] <= gd[0] and mui_ten[1] > gd[1]:
-            if -45 <= goc_chinh <= -25:
+            if -45 <= goc_chinh <= -20:
                 trang_thai = 'Cui phai'
                 mode = 4
-            elif goc_chinh > -25:
+            elif goc_chinh > -20:
                 trang_thai = 'Nhin phai'
                 mode = 6
             else:
                 trang_thai = 'Cui'
                 mode = 1
         elif mui_ten[0] > gd[0] and mui_ten[1] > gd[1]:
-            if 25 <= goc_chinh <= 45:
+            if 20 <= goc_chinh <= 45:
                 trang_thai = 'Cui trai'
                 mode = 5
-            elif goc_chinh < 25:
+            elif goc_chinh < 20:
                 trang_thai = 'Nhin trai'
                 mode = 7
             else:
@@ -61,23 +61,13 @@ def trang_thai_mat(ty_le_mat, ty_le_mat_phai, ty_le_mat_trai, mode, trang_thai_t
             trang_thai = 'Nham'
         else:
             trang_thai = 'Mo'
-    elif mode == 4:
-        if ty_le_mat_trai <= 0.25:
+    elif mode == 4 or mode == 6:
+        if ty_le_mat_trai <= 0.24:
             trang_thai = 'Nham'
         else:
             trang_thai = 'Mo'
-    elif mode == 5:
-        if ty_le_mat_phai <= 0.25:
-            trang_thai = 'Nham'
-        else:
-            trang_thai = 'Mo'
-    elif mode == 6:
-        if ty_le_mat_trai <= 0.25:
-            trang_thai = 'Nham'
-        else:
-            trang_thai = 'Mo'
-    elif mode == 7:
-        if ty_le_mat_phai <= 0.25:
+    elif mode == 5 or mode == 7:
+        if ty_le_mat_phai <= 0.24:
             trang_thai = 'Nham'
         else:
             trang_thai = 'Mo'
