@@ -5,7 +5,7 @@ import numpy as np
 import mediapipe as mp
 from threading import Thread
 from ham import play_sound, draw_point, ty_le_mat, khoang_cach, giao_diem, duong_tron
-from trang_thai_dau import trang_thai_dau, trang_thai_mat, gat_dau
+from trang_thai_dau import trang_thai_dau, trang_thai_mat, gat_dau, canh_bao_buon_ngu
 
 dem = 0
 mode = 0
@@ -26,13 +26,12 @@ wav_path = '/home/pi/Documents/THIET_BI_CANH_BAO_BUON_NGU/alarm.wav'
 mpDraw = mp.solutions.drawing_utils
 mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("Video_test/test.mp4")
 canh_bao = False
 i = 0
 
 while True:
     ret, img = cap.read()
-    key = cv2.waitKey(50)
     pTime = time.time()
     ih, iw = img.shape[0], img.shape[1]
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -76,13 +75,9 @@ while True:
             goc_nghieng = int(math.degrees(math.atan(m)))
             thuoc= duong_tron(mui_ten, gd, ban_kinh)
             Tu_the, mode, Tu_the_trc = trang_thai_dau(thuoc, mui_ten, gd, ban_kinh, goc_chinh, goc_nghieng)
-            tt_mat, tt_mat_trc, dem, canh_bao = trang_thai_mat(ty_le_tb, ty_le_mat_phai, ty_le_mat_trai, dem, mode, canh_bao, tt_mat_trc)
+            tt_mat, tt_mat_trc = trang_thai_mat(ty_le_tb, ty_le_mat_phai, ty_le_mat_trai, mode, tt_mat_trc)
             gat_num, dem_gat, prev_status, canh_bao = gat_dau(prev_status, mode, dem_gat, gat_num, tt_mat, canh_bao)
-            if canh_bao:
-                cv2.putText(img, "CANH BAO!!!", (int(iw/2)-200, int(ih/2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
-                t = Thread(target=play_sound, args=(wav_path,))
-                t.deamon = True
-                t.start()
+            
 
             cv2.circle(img, gd, 2, (255, 0, 0), -1)
             cv2.circle(img, phai, 2, (255, 255, 0), -1)
@@ -103,6 +98,7 @@ while True:
             cv2.line(img, (face[130][0], gd[1]), (face[263][0], gd[1]), (0, 255, 255), 1)
             
         except Exception:
+            tt_mat = tt_mat_trc
             Tu_the = Tu_the_trc
     cTime = time.time()
     fps = int(1 / (cTime - pTime))
@@ -110,8 +106,15 @@ while True:
     cv2.putText(img, "Tu the: "+Tu_the, (10,40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
     cv2.putText(img, "Trang thai mat: " + tt_mat, (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
     cv2.putText(img, "Gat dau: " + str(gat_num), (10,80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+    dem, canh_bao = canh_bao_buon_ngu(tt_mat, dem, canh_bao)
+    if canh_bao:
+                cv2.putText(img, "CANH BAO!!!", (int(iw/2)-200, int(ih/2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+                t = Thread(target=play_sound, args=(wav_path,))
+                t.deamon = True
+                t.start()
     pTime = cTime
     cv2.imshow('results', img)
+    key = cv2.waitKey(1)
     if key == ord('q'):
         break
 
