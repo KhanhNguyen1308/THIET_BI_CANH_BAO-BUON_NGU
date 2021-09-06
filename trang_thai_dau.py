@@ -32,16 +32,22 @@ def trang_thai_dau(thuoc, mui_ten, gd, R, goc_chinh, goc_nghieng):
                 trang_thai = 'Ngang'
                 mode = 8
         elif mui_ten[0] <= gd[0] and mui_ten[1] > gd[1]:
-            if -45 <= goc_chinh:
+            if -45 <= goc_chinh <= -20:
                 trang_thai = 'Cui phai'
                 mode = 4
+            elif goc_chinh > -20:
+                trang_thai = 'Nhin phai'
+                mode = 6
             else:
                 trang_thai = 'Cui'
                 mode = 1
         elif mui_ten[0] > gd[0] and mui_ten[1] > gd[1]:
-            if -45 <= goc_chinh:
+            if 20 <= goc_chinh <= 45:
                 trang_thai = 'Cui trai'
                 mode = 5
+            elif goc_chinh < 20:
+                trang_thai = 'Nhin trai'
+                mode = 7
             else:
                 trang_thai = 'Cui'
                 mode = 1
@@ -49,7 +55,7 @@ def trang_thai_dau(thuoc, mui_ten, gd, R, goc_chinh, goc_nghieng):
     return trang_thai, mode, trang_thai_trc
 
 
-def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
+def trang_thai_mat(ty_le_mat, ty_le_mat_phai, ty_le_mat_trai, dem, mode, canh_bao, trang_thai_trc):
     if mode == 0:
         if ty_le_mat <= 0.25:
             trang_thai = 'Nham'
@@ -91,7 +97,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
             dem = 0
             canh_bao = False
     elif mode == 4:
-        if ty_le_mat <= 0.35:
+        if ty_le_mat_trai <= 0.28:
             trang_thai = 'Nham'
             dem += 1
             if dem >= 15:
@@ -101,7 +107,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
             dem = 0
             canh_bao = False
     elif mode == 5:
-        if ty_le_mat <= 0.3:
+        if ty_le_mat_phai <= 0.28:
             trang_thai = 'Nham'
             dem += 1
             if dem >= 15:
@@ -111,7 +117,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
             dem = 0
             canh_bao = False
     elif mode == 6:
-        if ty_le_mat <= 0.35:
+        if ty_le_mat_trai <= 0.28:
             trang_thai = 'Nham'
             dem += 1
             if dem >= 15:
@@ -121,7 +127,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
             dem = 0
             canh_bao = False
     elif mode == 7:
-        if ty_le_mat <= 0.33:
+        if ty_le_mat_phai <= 0.28:
             trang_thai = 'Nham'
             dem += 1
             if dem >= 15:
@@ -131,7 +137,7 @@ def trang_thai_mat(ty_le_mat, dem, mode, canh_bao, trang_thai_trc):
             dem = 0
             canh_bao = False
     elif mode == 8:
-        if ty_le_mat <= 0.3:
+        if ty_le_mat <= 0.25:
             trang_thai = 'Nham'
             dem += 1
             if dem >= 15:
