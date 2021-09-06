@@ -89,6 +89,8 @@ def giao_diem(p1, p2, d1, d2):
     b1 = p2[0]-p1[0]
     a2 = d1[1]-d2[1]
     b2 = d2[0]-d1[0]
+    if b2 == 0:
+        b2 = 1
     x = ((b2*a1*p1[0] + b2*b1*p1[1] - b1*a2*d1[0] - b1*b2*d1[1]) / (b2*a1-b1*a2))
     y = (-(a2*x-(a2*d1[0]+b2*d1[1]))/b2)
     return (int(x), int(y))

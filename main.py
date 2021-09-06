@@ -21,14 +21,11 @@ Tu_the = ''
 Tu_the_trc = ''
 
 canh_bao = False
-# avg = open("Text/avg.txt", "+w")
-# md = open("Text/mode.txt", "+w")
-
+wav_path = '/home/pi/Documents/THIET_BI_CANH_BAO_BUON_NGU/alarm.wav'
 
 mpDraw = mp.solutions.drawing_utils
 mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
-drawSpec = mpDraw.DrawingSpec(thickness=1, circle_radius=2)
 cap = cv2.VideoCapture(0)
 canh_bao = False
 i = 0
@@ -55,8 +52,6 @@ while True:
             ty_le_mat_phai, ty_le_mat_trai, ty_le_tb = ty_le_mat(mat_trai, mat_phai)
             phai = (int((face[162][0]+face[127][0])/2), int((face[162][1]+face[127][1])/2))
             trai = (int((face[389][0]+face[356][0])/2), int((face[389][1]+face[356][1])/2))
-            tam_mat_phai = (int((face[130][0]+face[155][0])/2),int((face[130][1]+face[155][1])/2))
-            tam_mat_trai = (int((face[382][0]+face[263][0])/2),int((face[382][1]+face[263][1])/2))
             gd = giao_diem(face[130], face[263], face[152],face[151])
             trung_tam = (int((phai[0]+trai[0])/2), int((phai[1]+trai[1])/2))
             ban_kinh = int((khoang_cach(gd, (face[155][0], face[155][1]))+khoang_cach(gd, (face[382][0], face[382][1])))/2)
@@ -107,17 +102,15 @@ while True:
             cv2.line(img, (face[130][0], gd[1]), (face[263][0], gd[1]), (0, 255, 255), 1)
 
             # cv2.putText(img, Tu_the, (x-20,y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
-            cv2.putText(img, "Tu the: "+Tu_the, (10,40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
             
         except Exception:
-            color = (0, 255, 0)
-            cv2.putText(img, Tu_the_trc, (x-20,y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0 ,0), 1)
             Tu_the = Tu_the_trc
     cTime = time.time()
     fps = int(1 / (cTime - pTime))
-    cv2.putText(img, str(fps), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
-    cv2.putText(img, "Trang thai mat:" + tt_mat, (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
-    # cv2.putText(img, "Gat dau" + str(gat_num), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+    cv2.putText(img, str(fps), (10,20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+    cv2.putText(img, "Tu the: "+Tu_the, (10,40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+    cv2.putText(img, "Trang thai mat: " + tt_mat, (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+    cv2.putText(img, "Gat dau: " + str(gat_num), (10,80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
     pTime = cTime
     cv2.imshow('results', img)
     if key == ord('q'):
