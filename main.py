@@ -101,8 +101,6 @@ while True:
             cv2.line(img, (face[130][0],face[130][1]), (face[263][0],face[263][1]), (0, 255, 255), 1)
             cv2.line(img, (face[151][0],face[151][1]), (face[152][0],face[152][1]), (0, 255, 255), 1)
             cv2.line(img, (face[130][0], gd[1]), (face[263][0], gd[1]), (0, 255, 255), 1)
-
-            # cv2.putText(img, Tu_the, (x-20,y-5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
             
         except Exception:
             Tu_the = Tu_the_trc
@@ -116,14 +114,6 @@ while True:
     cv2.imshow('results', img)
     if key == ord('q'):
         break
-    if key == ord('f'):
-        print(str(round(ty_le_mat_trai,3)))
-    if key == ord('z'):
-        print(str(goc_chinh))
-    if key == ord('r'):
-        print(str(round(ty_le_mat_phai,3)))
-    if key == ord('a'):
-        cv2.imwrite("img/img_"+Tu_the+"_"+tt_mat+".jpg", img)
 
 cap.release()
 cv2.destroyAllWindows()
