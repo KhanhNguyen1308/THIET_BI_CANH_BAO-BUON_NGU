@@ -86,7 +86,7 @@ def gat_dau(trang_thai_trc, mode, dem, gat_num, trang_thai, canh_bao):
             dem += 1
             trang_thai_trc = mode
     if mode == 0 and trang_thai_trc == 1 and trang_thai == "Nham":  
-        if dem <= 20 and dem != 0:
+        if dem <= 15 and dem != 0:
             gat_num = 1
             dem = 0
             canh_bao = True
