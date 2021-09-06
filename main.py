@@ -29,7 +29,7 @@ mpDraw = mp.solutions.drawing_utils
 mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
 drawSpec = mpDraw.DrawingSpec(thickness=1, circle_radius=2)
-cap = cv2.VideoCapture("Video_test/final_test.mp4")
+cap = cv2.VideoCapture(0)
 canh_bao = False
 i = 0
 
