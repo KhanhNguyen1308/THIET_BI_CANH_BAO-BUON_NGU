@@ -36,7 +36,6 @@ i = 0
 while True:
     ret, img = cap.read()
     pTime = time.time()
-    key = cv2.waitKey(50)
     ih, iw = img.shape[0], img.shape[1]
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     results = faceMesh.process(imgRGB)
@@ -55,8 +54,8 @@ while True:
             ty_le_mat_phai, ty_le_mat_trai, ty_le_tb = ty_le_mat(mat_trai, mat_phai)
             phai = (int((face[162][0]+face[127][0])/2), int((face[162][1]+face[127][1])/2))
             trai = (int((face[389][0]+face[356][0])/2), int((face[389][1]+face[356][1])/2))
-            tam_mat_phai = (int(face[130][0]+face[155][0])/2,int(face[130][1]+face[155][1])/2)
-            tam_mat_trai = (int(face[382][0]+face[263][0])/2,int(face[382][1]+face[263][1])/2)
+            tam_mat_phai = (int((face[130][0]+face[155][0])/2),int((face[130][1]+face[155][1])/2))
+            tam_mat_trai = (int((face[382][0]+face[263][0])/2),int((face[382][1]+face[263][1])/2))
             gd = giao_diem(face[130], face[263], face[152],face[151])
             trung_tam = (int((phai[0]+trai[0])/2), int((phai[1]+trai[1])/2))
             ban_kinh = int((khoang_cach(gd, (face[155][0], face[155][1]))+khoang_cach(gd, (face[382][0], face[382][1])))/2)
@@ -112,6 +111,7 @@ while True:
     cv2.putText(img, "Gat dau" + str(gat_num), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
     pTime = cTime
     cv2.imshow('results', img)
+    key = cv2.waitKey(1)
     if key == ord('q'):
         break
 
