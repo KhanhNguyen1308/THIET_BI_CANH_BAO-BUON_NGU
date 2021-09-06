@@ -21,13 +21,14 @@ Tu_the = ''
 Tu_the_trc = ''
 
 canh_bao = False
-wav_path = '/home/pi/Documents/THIET_BI_CANH_BAO_BUON_NGU/alarm.wav'
+wav_path = '/home/pi/THIET_BI_CANH_BAO-BUON_NGU/alarm.wav'
 
 mpDraw = mp.solutions.drawing_utils
 mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
 cap = cv2.VideoCapture("Video_test/test.mp4")
 canh_bao = False
+alarm = False
 i = 0
 
 while True:
@@ -108,10 +109,11 @@ while True:
     cv2.putText(img, "Gat dau: " + str(gat_num), (10,80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
     dem, canh_bao = canh_bao_buon_ngu(tt_mat, dem, canh_bao)
     if canh_bao:
-                cv2.putText(img, "CANH BAO!!!", (int(iw/2)-200, int(ih/2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
-                t = Thread(target=play_sound, args=(wav_path,))
-                t.deamon = True
-                t.start()
+        t = Thread(target=play_sound, args=(wav_path,))
+        t.deamon = True
+        t.start()
+        cv2.putText(img, "CANH BAO!!!", (int(iw/2)-200, int(ih/2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+
     pTime = cTime
     cv2.imshow('results', img)
     key = cv2.waitKey(1)
