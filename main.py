@@ -78,10 +78,11 @@ while True:
             Tu_the, mode, Tu_the_trc = trang_thai_dau(thuoc, mui_ten, gd, ban_kinh, goc_chinh, goc_nghieng)
             tt_mat, tt_mat_trc, dem, canh_bao = trang_thai_mat(ty_le_tb, ty_le_mat_phai, ty_le_mat_trai, dem, mode, canh_bao, tt_mat_trc)
             gat_num, dem_gat, prev_status, canh_bao = gat_dau(prev_status, mode, dem_gat, gat_num, tt_mat, canh_bao)
-            # md.write(str(mode/10)+"\n")
-            # avg.write(str(round(ty_le_tb,3))+"\n")
             if canh_bao:
                 cv2.putText(img, "CANH BAO!!!", (int(iw/2)-200, int(ih/2)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+                t = Thread(target=play_sound, args=(wav_path,))
+                t.deamon = True
+                t.start()
 
             cv2.circle(img, gd, 2, (255, 0, 0), -1)
             cv2.circle(img, phai, 2, (255, 255, 0), -1)
